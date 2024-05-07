@@ -8,18 +8,18 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://176.215.237.117:810"],
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_origins=["*"], #http://176.215.237.117:810
+    # allow_credentials=True,
+    allow_methods=["POST"],
     allow_headers=["*"],
 )
 
-class Text(BaseModel):
+class Secret(BaseModel):
     text: str
 
 @app.post('/check')
-async def check(text: Text):
-    if text.text == 'Hello':
-        return {'ok': True}
+async def check(secret: Secret):
+    if secret.text == 'Hello':
+        return {'ok': True, 'message': 'Congratulations! You found the secret code!'}
     else:
-        return {'ok': False}
+        return {'ok': False, 'message': 'Poop! Wrong secret code!'}
